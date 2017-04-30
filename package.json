@@ -5,7 +5,8 @@
   "main": "js/index.js",
   "scripts": {
     "start": "http-server -c-1 build",
-    "dev": "run-p watch serve",
+    "start_server": "node server.js",
+    "dev": "run-p watch serve start_server",
     "test": "mocha --recursive --compilers js:babel-core/register",
     "build": "run-s build:*",
     "clean": "rimraf build",

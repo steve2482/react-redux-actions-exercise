@@ -28,6 +28,7 @@ export class InputAndFeedback extends React.Component {
 
 
   render() {
+    console.log('rendering input-feedback component');
     const guesses = store.getState().eachGuess.map((eachGuess, index) => {
       return <NumberItem number={eachGuess} key={index} />
     });

@@ -50,7 +50,7 @@ export const saveFewestGuesses = (guesses) => ({
 });
 // fetch fewest guesses function
 export const getFewestGuesses = () => dispatch => {
-  const url = 'http://localhost:8080/fewest-guesses';
+  const url = 'http://localhost:3000/fewest-guesses';
   return fetch(url).then(response => {
     if (!response.ok) {
       const error = new Error('Something when wrong while fetching fewest guesses');
@@ -60,8 +60,8 @@ export const getFewestGuesses = () => dispatch => {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
-    dispatch(fetchFewestGuesses(data.fewestGuesses));
+    console.log(`response data: ${data}(actions/index)`);
+    dispatch(fetchFewestGuesses(data));
   })
   .catch(error => console.log(error));
 }

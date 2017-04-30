@@ -52,10 +52,12 @@ export const guessNumberReducer = (state=gameState, action) => {
   // need to create reducers for fetching and saving fewest guesses
   else if (action.type === actions.FETCH_FEWEST_GUESSES) {
     const newGameState = update(state, {fewestGuesses: {$set: action.guesses}});
+    console.log('State(after fetching fewest guesses:', newGameState);
+    return newGameState;
   }
   // else if (action.type === actions.SAVE_FEWEST_GUESSES) {
 
   // }
-  console.log(state);
+  console.log('State(reducers/index):', state);
   return state;
 }
