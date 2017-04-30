@@ -32,10 +32,8 @@ export const guessNumberReducer = (state=gameState, action) => {
     return newGameState;
   }
   else if (action.type === actions.HOT_COLD) {
-    console.log(state.guess, state.randomNumber);
     if (Math.abs(state.guess - state.randomNumber) === 0) {
       const newGameState = update(state, {hotOrCold: {$set: 'CORRECT!!'}});
-      console.log(newGameState);
       return newGameState;
     }
     else if (Math.abs(state.guess - state.randomNumber) <= 5) {
@@ -51,6 +49,13 @@ export const guessNumberReducer = (state=gameState, action) => {
       return newGameState;
     }
   }
+  // need to create reducers for fetching and saving fewest guesses
+  else if (action.type === actions.FETCH_FEWEST_GUESSES) {
+    const newGameState = update(state, {fewestGuesses: {$set: action.guesses}});
+  }
+  // else if (action.type === actions.SAVE_FEWEST_GUESSES) {
+
+  // }
   console.log(state);
   return state;
 }

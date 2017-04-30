@@ -6,11 +6,7 @@ const path = require('path');
 
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve('static', 'index.html'));
-});
-
-let fewestGuesses = 'N/A';
+let fewestGuesses = 10;
 app.get('/fewest-guesses', (req, res) => {
 	res.send(fewestGuesses);
 });
@@ -20,8 +16,3 @@ app.post('/fewest-guesses', (req, res) => {
 		fewestGuesses = req.numberOfGuesses + ' Guesses';
 	};
 });
-
-app.listen(8080, () => {
-	console.log('App is listening on port 8080');
-});
-

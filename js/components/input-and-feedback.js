@@ -2,11 +2,18 @@ import React from 'react';
 import store from '../store';
 import * as actions from '../actions/index';
 import NumberItem from './number';
+import {connect} from 'react-redux';
 
 export class InputAndFeedback extends React.Component {
   constructor(props) {
     super(props);
     this.userGuess = this.userGuess.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.dispatch(
+      actions.getFewestGuesses()
+    );
   }
 
   userGuess(e) {
@@ -17,6 +24,8 @@ export class InputAndFeedback extends React.Component {
     store.dispatch(actions.eachGuess());
     store.dispatch(actions.hotCold());
   }
+
+
 
   render() {
     const guesses = store.getState().eachGuess.map((eachGuess, index) => {
@@ -42,4 +51,4 @@ export class InputAndFeedback extends React.Component {
   }
 }
 
-export default InputAndFeedback;
+export default connect()(InputAndFeedback);
