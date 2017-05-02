@@ -60,23 +60,36 @@ export const getFewestGuesses = () => dispatch => {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(`response data: ${data}(actions/index)`);
     dispatch(fetchFewestGuesses(data));
   })
   .catch(error => console.log(error));
 }
-
-// export const sendNumberOfGuesses = guesses => dispatch => {
-
-//   const url = 'http://localhost:8080/fewest-guesses';
-//   $.ajax({
-//     url: url,
-//     type: 'POST',
-//     data: JSON.stringify(guesses),
-//     contentType: 'application/json',
-//     success: () => {
-//      getFewestGuesses();
-//     }
-//   })
-
-// }
+// send number of guesses when correct answer is reached
+export const sendNumberOfGuesses = guesses => dispatch => {
+  console.log('sending number of guesses: ', guesses)
+  const url = 'http://localhost:3000/fewest-guesses';
+  const payload = {
+    numberOfGuesses: guesses
+  };
+  fetch(url, {
+    method: 'post',
+    body: JSON.stringify(payload),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => {
+    if(!response.ok) {
+      const error = new Error('Something when wrong while sending number of guesses');
+      console.log(error);
+    }
+    console.log(response);
+    return response;
+  })
+  .then(response => response.json())
+  .then(data => {
+    dispatch(saveFewestGuesses(data));
+  })
+  .catch(error => console.log(error));
+}

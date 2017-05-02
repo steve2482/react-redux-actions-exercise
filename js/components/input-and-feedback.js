@@ -14,42 +14,51 @@ export class InputAndFeedback extends React.Component {
     this.props.dispatch(
       actions.getFewestGuesses()
     );
+    console.log(this.props.state)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.state.hotOrCold === 'CORRECT!!') {
+      this.props.dispatch(actions.sendNumberOfGuesses(nextProps.state.numberOfGuesses));
+    }
   }
 
   userGuess(e) {
     e.preventDefault();
     const guess = this.guessInput.value;
-    store.dispatch(actions.guessNumber(guess));
-    store.dispatch(actions.trackGuess(guess));
-    store.dispatch(actions.eachGuess());
-    store.dispatch(actions.hotCold());
-  }
-
-
+    this.props.dispatch(actions.guessNumber(guess));
+    this.props.dispatch(actions.trackGuess(guess));
+    this.props.dispatch(actions.eachGuess());
+    this.props.dispatch(actions.hotCold());
+  } 
 
   render() {
-    console.log('rendering input-feedback component');
-    const guesses = store.getState().eachGuess.map((eachGuess, index) => {
+    const guesses =  this.props.state.eachGuess.map((eachGuess, index) => {
       return <NumberItem number={eachGuess} key={index} />
     });
 
     return (
       <div>
-        <p className='feedback'>{store.getState().hotOrCold}</p>
+        <p className='feedback'>{this.props.state.hotOrCold}</p>
         <form>
           <input id='userGuess' type='text' ref={ref => this.guessInput = ref} placeholder='Enter Your Guess' />
           <button onClick={this.userGuess}>Guess</button>
         </form>
-        <p className='amount-of-guesses'>Guess #<span className='count'>{store.getState().numberOfGuesses}</span></p>
+        <p className='amount-of-guesses'>Guess #<span className='count'>{this.props.state.numberOfGuesses}</span></p>
         <div className='history'>
           <ul>
             {guesses}
           </ul>
         </div>
-        <p className='best'>Best Score: {store.getState().fewestGuesses}</p>
+        <p className='best'>Best Score: {this.props.state.fewestGuesses}</p>
       </div>
     );
   }
 }
 
-export default connect()(InputAndFeedback);
+const mapStateToProps = (state, props) => ({
+  state: state
+});
+
+export default connect(mapStateToProps)(InputAndFeedback);
